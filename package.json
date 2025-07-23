@@ -1,0 +1,15 @@
+{
+  "name": "euckr",
+  "version": "1.0.0",
+  "description": "A lightweight utility library for working with EUC-KR encoded strings in both Node.js and browser environments. Includes functions to calculate EUC-KR byte length, check if strings are EUC-KR encodable, and more. Fully frontend-compatible—no native dependencies.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-username/my-npm-library.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT"
+}
