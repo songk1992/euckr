@@ -1,5 +1,9 @@
 # 🇰🇷 EUC-KR Encoding Utility
 
+[![npm version](https://img.shields.io/npm/v/euckr.svg?style=flat-square)](https://www.npmjs.com/package/euckr)
+
+[![npm downloads](https://img.shields.io/npm/dm/euckr.svg?style=flat-square)](https://www.npmjs.com/package/euckr)
+
 EUC-KR 문자 인코딩 및 디코딩을 위한 자바스크립트 라이브러리입니다.  
 Korean character encoding made easy using EUC-KR based on KS X 1001.
 
