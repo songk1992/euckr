@@ -1,4 +1,4 @@
-export const ksx1001UnicodeSet = new Set([
+export const ksx1001UnicodeSet: Set<string> = new Set([
   "가",
   "각",
   "간",

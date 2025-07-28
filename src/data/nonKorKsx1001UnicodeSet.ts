@@ -1,4 +1,4 @@
-export const nonKorKsx1001UnicodeSet = new Set([
+export const nonKorKsx1001UnicodeSet: Set<string> = new Set([
   "!",
   '"',
   "#",

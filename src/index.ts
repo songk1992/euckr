@@ -2,13 +2,16 @@ import { ksx1001UnicodeSet } from "./data/ksx1001UnicodeSet.js";
 import { nonKorKsx1001UnicodeSet } from "./data/nonKorKsx1001UnicodeSet.js";
 import { euckrTable } from "./data/euckrTable.js";
 
-// Build once at module init
-const unicodeToEuckr = new Map(
+// Map Unicode character to EUC-KR code
+const unicodeToEuckr = new Map<string, number>(
   Object.entries(euckrTable).map(([key, value]) => [value, parseInt(key)])
 );
 
-function encodeToEuckr(str) {
-  const bytes = [];
+/**
+ * Encode a string to EUC-KR byte array
+ */
+function encodeToEuckr(str: string): Uint8Array {
+  const bytes: number[] = [];
   for (const ch of str) {
     const code = ch.charCodeAt(0);
     if (code <= 0x7f) {
@@ -23,7 +26,10 @@ function encodeToEuckr(str) {
   return new Uint8Array(bytes);
 }
 
-function decodeEuckrBytes(byteArray) {
+/**
+ * Decode EUC-KR byte array to string
+ */
+function decodeEuckrBytes(byteArray: Uint8Array | number[]): string {
   let result = "";
   for (let i = 0; i < byteArray.length; i++) {
     const b1 = byteArray[i];
@@ -39,43 +45,30 @@ function decodeEuckrBytes(byteArray) {
 }
 
 /**
- * Check if a character is representable in EUC-KR.
- * Note: this version assumes ASCII + basic Hangul coverage.
- * @param {string} str
- * @returns {boolean}
+ * Check if a string is valid EUC-KR encodable
  */
-function isEuckr(str) {
-  for (let i = 0; i < str.length; i++) {
-    const ch = str[i];
-
-    // ASCII
-    if (ch.charCodeAt(0) <= 0x7f) continue;
-
-    // Check string Sets
+function isEuckr(str: string): boolean {
+  for (const ch of str) {
+    const code = ch.charCodeAt(0);
+    if (code <= 0x7f) continue;
     if (ksx1001UnicodeSet.has(ch)) continue;
     if (nonKorKsx1001UnicodeSet.has(ch)) continue;
-
     return false;
   }
   return true;
 }
 
 /**
- * Estimate EUC-KR byte length of a string
- * @param {string} str
- * @returns {number}
+ * Get total EUC-KR byte length of string
  */
-function getEuckrByteLength(str) {
+function getEuckrByteLength(str: string): number {
   let len = 0;
-  for (let i = 0; i < str.length; i++) {
-    const ch = str[i];
+  for (const ch of str) {
     const code = ch.charCodeAt(0);
     if (code <= 0x7f) {
-      len += 1; // ASCII
-    } else if (ksx1001UnicodeSet.has(ch)) {
-      len += 2; // KS X 1001
-    } else if (nonKorKsx1001UnicodeSet.has(ch)) {
-      len += 2; // Other EUC-KR
+      len += 1;
+    } else if (ksx1001UnicodeSet.has(ch) || nonKorKsx1001UnicodeSet.has(ch)) {
+      len += 2;
     } else {
       throw new Error(
         `Character "${ch}" (U+${code

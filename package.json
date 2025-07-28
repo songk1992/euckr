@@ -3,14 +3,31 @@
   "name": "euckr",
   "version": "1.0.0",
   "description": "A lightweight utility library for working with EUC-KR encoded strings in both Node.js and browser environments. Includes functions to calculate EUC-KR byte length, check if strings are EUC-KR encodable, and more. Fully frontend-compatible—no native dependencies.",
-  "main": "index.js",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.cjs"
+  },
+  "scripts": {
+    "build": "tsc && rollup -c",
+    "test": "tsx test/index.test.ts"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/songk1992/euckr.git"
   },
-  "scripts": {
-    "test": "node test.js"
-  },
+  "files": [
+    "dist/"
+  ],
   "author": "codemasterkimc",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^12.1.4",
+    "rollup": "^4.46.1",
+    "rollup-plugin-typescript": "^1.0.1",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  }
 }

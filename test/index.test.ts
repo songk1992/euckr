@@ -3,9 +3,10 @@ import {
   decodeEuckrBytes,
   isEuckr,
   getEuckrByteLength,
-} from "./index.js";
+} from "../src/index.ts";
 
-function assertEqual(actual, expected, message) {
+// Assertion helpers
+function assertEqual<T>(actual: T, expected: T, message: string): void {
   if (actual !== expected) {
     console.error(`❌ ${message}\n   Expected: ${expected}\n   Got: ${actual}`);
   } else {
@@ -13,33 +14,43 @@ function assertEqual(actual, expected, message) {
   }
 }
 
-function assertArrayEqual(actual, expected, message) {
+function assertArrayEqual(
+  actual: Uint8Array,
+  expected: number[],
+  message: string
+): void {
   const isEqual =
     actual.length === expected.length &&
     actual.every((v, i) => v === expected[i]);
   if (!isEqual) {
-    console.error(`❌ ${message}\n   Expected: ${expected}\n   Got: ${actual}`);
+    console.error(
+      `❌ ${message}\n   Expected: [${expected}]\n   Got: [${Array.from(
+        actual
+      )}]`
+    );
   } else {
     console.log(`✅ ${message}`);
   }
 }
 
-// ========== TEST CASES ==========
+// ==============================
+// 🧪 TEST CASES
+// ==============================
 
-// Test 1: ASCII
+// Test 1: ASCII round-trip
 (() => {
   const input = "Hello!";
   const encoded = encodeToEuckr(input);
   const decoded = decodeEuckrBytes(encoded);
-  assertEqual(decoded, input, "ASCII encode/decode round-trip");
+  assertEqual(decoded, input, "ASCII round-trip encode/decode");
 })();
 
-// Test 2: Hangul
+// Test 2: Hangul round-trip
 (() => {
   const input = "가각간";
   const encoded = encodeToEuckr(input);
   const decoded = decodeEuckrBytes(encoded);
-  assertEqual(decoded, input, "Hangul encode/decode round-trip");
+  assertEqual(decoded, input, "Hangul round-trip encode/decode");
 })();
 
 // Test 3: Mixed ASCII + Hangul
@@ -50,42 +61,35 @@ function assertArrayEqual(actual, expected, message) {
   assertEqual(decoded, input, "Mixed ASCII + Hangul round-trip");
 })();
 
-// Test 4: isEuckr valid
+// Test 4: isEuckr true
 (() => {
   const input = "Hello가각라";
   const result = isEuckr(input);
-  assertEqual(
-    result,
-    true,
-    "isEuckr should return true for valid EUC-KR string"
-  );
+  assertEqual(result, true, "isEuckr returns true for EUC-KR string");
 })();
 
-// Test 5: isEuckr false
+// Test 5: isEuckr false (emoji)
 (() => {
   const input = "Hello😊";
   const result = isEuckr(input);
-  assertEqual(
-    result,
-    false,
-    "isEuckr should return false for unsupported emoji"
-  );
+  assertEqual(result, false, "isEuckr returns false for emoji");
 })();
 
-// Test 6: Byte length estimation
+// Test 6: Byte length calculation
 (() => {
   const input = "A가B각";
-  const result = getEuckrByteLength(input); // A=1, 가=2, B=1, 각=2 → 6
-  assertEqual(result, 6, "EUC-KR byte length estimation");
+  const expectedLength = 6; // A=1, 가=2, B=1, 각=2
+  const result = getEuckrByteLength(input);
+  assertEqual(result, expectedLength, "getEuckrByteLength works correctly");
 })();
 
-// Test 7: Error for unsupported character
+// Test 7: Unsupported character throws error
 (() => {
   const input = "😊";
   try {
     encodeToEuckr(input);
     console.error("❌ Expected error for unsupported character");
-  } catch (e) {
+  } catch {
     console.log("✅ Throws error for unsupported character");
   }
 })();

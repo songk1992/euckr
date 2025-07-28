@@ -1,4 +1,4 @@
-export const euckrTable = {
+export const euckrTable: Record<number, string> = {
   0xa1a2: "、",
   0xa1a3: "。",
   0xa1a4: "·",

@@ -1,3 +1,27 @@
+# Ignore test files
 test.js
+test*.js
+*.spec.ts
+*.test.ts
+
+# Ignore images and design assets
 *.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+
+# Ignore editor-specific folders
 .vscode/
+.idea/
+
+# Ignore source if you're only publishing built files
+src/
+rollup.config.js
+tsconfig.json
+tsconfig.build.json
+
+# Ignore misc files
+*.log
+.DS_Store
+.env
