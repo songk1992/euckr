@@ -1,6 +1,6 @@
-export const nonKorKsx1001UnicodeSet: Set<string> = new Set([
+[
   "!",
-  '"',
+  "\"",
   "#",
   "$",
   "%",
@@ -5302,5 +5302,5 @@ export const nonKorKsx1001UnicodeSet: Set<string> = new Set([
   "犧",
   "禧",
   "稀",
-  "羲",
-]);
+  "羲"
+]

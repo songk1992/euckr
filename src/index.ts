@@ -1,6 +1,16 @@
-import { ksx1001UnicodeSet } from "./data/ksx1001UnicodeSet.js";
-import { nonKorKsx1001UnicodeSet } from "./data/nonKorKsx1001UnicodeSet.js";
-import { euckrTable } from "./data/euckrTable.js";
+// Import from JSON
+import euckrTableJson from "./data/euckrTable.json";
+import ksx1001Json from "./data/ksx1001UnicodeSet.json";
+import nonKorKsx1001Json from "./data/nonKorKsx1001UnicodeSet.json";
+
+// Construct runtime structures
+const euckrTable: Record<number, string> = {};
+for (const [key, val] of Object.entries(euckrTableJson)) {
+  euckrTable[parseInt(key)] = val;
+}
+
+const ksx1001UnicodeSet = new Set<string>(ksx1001Json);
+const nonKorKsx1001UnicodeSet = new Set<string>(nonKorKsx1001Json);
 
 // Map Unicode character to EUC-KR code
 const unicodeToEuckr = new Map<string, number>(

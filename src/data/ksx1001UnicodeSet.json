@@ -1,4 +1,4 @@
-export const ksx1001UnicodeSet: Set<string> = new Set([
+[
   "가",
   "각",
   "간",
@@ -2348,5 +2348,5 @@ export const ksx1001UnicodeSet: Set<string> = new Set([
   "힘",
   "힙",
   "힛",
-  "힝",
-]);
+  "힝"
+]
